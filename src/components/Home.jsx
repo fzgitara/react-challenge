@@ -16,6 +16,9 @@ class Home extends Component {
       })
     })
   }
+  refreshPage = () => { 
+    window.location.reload()
+  }
   render() {
     return (
       <Router>
@@ -25,7 +28,7 @@ class Home extends Component {
               return (
                 <div className="hero container" key={ hero.id }>
                 <strong>{ hero.localized_name }</strong><br/>
-                  <Link to={`/${hero.localized_name}`}>Details</Link>
+                  <Link to={`/hero/${hero.localized_name}`} onClick={ this.refreshPage }>Details</Link>
                 </div>
               )
             }) 

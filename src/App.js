@@ -16,12 +16,12 @@ class App extends Component {
           <h1 className="App-title">DOTA 2 Hero Stats</h1>
         </header>
         <div className="App-intro">
+        </div>
         <Switch>
           <Route exact path="/" component={ Home } />
-          <Route exact path="/:id" component={ Details } />
+          <Route exact path="/hero/:id" component={ Details } />
           <Route path="*" component={ Forbidden } />
         </Switch>
-        </div>
       </div>
       </Router>
     );

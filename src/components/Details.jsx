@@ -35,7 +35,7 @@ class Details extends Component {
         <p>Roles: {
           this.state.roles.map((role, i) => {
             return (
-              <li key="i">{role}</li>
+              <li key={i}>{role}</li>
             )
           })
         }</p>
