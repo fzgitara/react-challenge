@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter as Router, Route} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Home from './components/Home'
+import Details from './components/Details'
+import Forbidden from './components/Forbidden'
 
 class App extends Component {
   render() {
@@ -14,7 +16,11 @@ class App extends Component {
           <h1 className="App-title">DOTA 2 Hero Stats</h1>
         </header>
         <div className="App-intro">
+        <Switch>
           <Route exact path="/" component={ Home } />
+          <Route exact path="/:id" component={ Details } />
+          <Route path="*" component={ Forbidden } />
+        </Switch>
         </div>
       </div>
       </Router>

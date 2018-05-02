@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Route, Link} from "react-router-dom";
+import { BrowserRouter as Router, Link} from "react-router-dom";
 
 class Home extends Component {
   constructor () {
@@ -18,27 +18,20 @@ class Home extends Component {
   }
   render() {
     return (
-      <div>
-        <ul>
+      <Router>
+        <div className="home container">
           { 
             this.state.heroes.map(hero => {
               return (
-                <li className="hero" key={hero.id}><strong>{ hero.localized_name }</strong>
-                  <ol>
-                    {
-                      hero.roles.map((role, i) => {
-                        return (
-                          <li key={i}>{ role }</li>
-                        )
-                      })
-                    }
-                  </ol>
-                </li>
+                <div className="hero container" key={ hero.id }>
+                <strong>{ hero.localized_name }</strong><br/>
+                  <Link to={`/${hero.localized_name}`}>Details</Link>
+                </div>
               )
             }) 
           }
-        </ul>
-      </div>
+        </div>
+      </Router>
     );
   }
 }
