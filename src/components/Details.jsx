@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import axios from 'axios'
-import store from '../store/index'
+import axios from 'axios';
+import { connect } from 'react-redux';
 
 class Details extends Component {
   constructor () {
@@ -12,42 +12,28 @@ class Details extends Component {
       attack_type: '',
       img: ''
     }
-    store.subscribe(() => {
-      const details = store.getState()
-      console.log(details)
-      // eslint-disable-next-line
-      details.map(data => {
-        if(this.props.match.params.id === data.localized_name){
-          this.setState({
-            name: data.localized_name,
-            roles: data.roles,
-            attribute: data.primary_attr,
-            attack_type: data.attack_type,
-            img: `http://cdn.dota2.com/apps/dota2/images/heroes/${data.name.substr(14)}_full.png`
-          })
-        }
-      })
-    })
   }
   componentDidMount() {
     axios.get('https://api.opendota.com/api/heroStats').then(response => {
-      // response.data.map(data => {
-        // if(this.props.match.params.id === data.localized_name){
-          // this.setState({
-            //   name: data.localized_name,
-            //   roles: data.roles,
-            //   attribute: data.primary_attr,
-            //   attack_type: data.attack_type
-            // })
-            // }
-            // })
-      store.dispatch({
-        type: 'READ_DATA_HEROES',
-        payload: response.data
-      })
+      this.props.getHeroes(response.data)
+      this.getDetailHero()
     })
   }
-
+  getDetailHero () {
+    const details = this.props.heroes
+    // eslint-disable-next-line
+    details.map(data => {
+      if(this.props.match.params.id === data.localized_name){
+        this.setState({
+          name: data.localized_name,
+          roles: data.roles,
+          attribute: data.primary_attr,
+          attack_type: data.attack_type,
+          img: `http://cdn.dota2.com/apps/dota2/images/heroes/${data.name.substr(14)}_full.png`
+        })
+      }
+    })
+  }
   render() {
     return (
       <div>
@@ -70,4 +56,18 @@ class Details extends Component {
   }
 }
 
-export default Details;
+const mapStateToProps = (state) => ({
+  heroes: state
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  getHeroes: (data) => dispatch({
+    type: 'READ_DATA_HEROES',
+    payload: data
+  })
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Details);
