@@ -3,7 +3,7 @@ import { createStore } from "redux";
 const heroStats = (state=[], action) => {
   switch (action.type) {
     case 'READ_DATA_HEROES':
-      return [...state, action.payload]
+      return [...action.payload]
     default:
       return state
   }

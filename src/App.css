@@ -31,10 +31,15 @@
   border-radius: 25px;
   border: 2px solid #B82B1F;
   padding: 20px;
-  height: 4rem;
+  height: 10rem;
   width: 10rem;
   display: flex;
   flex-direction: column;
+}
+
+.imgHome {
+  width: 10rem;
+  align-self: center;
 }
 
 .container {

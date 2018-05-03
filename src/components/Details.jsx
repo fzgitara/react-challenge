@@ -9,18 +9,21 @@ class Details extends Component {
       name: '',
       roles: [],
       attribute: '',
-      attack_type: ''
+      attack_type: '',
+      img: ''
     }
     store.subscribe(() => {
       const details = store.getState()
       console.log(details)
-      details[0].map(data => {
+      // eslint-disable-next-line
+      details.map(data => {
         if(this.props.match.params.id === data.localized_name){
           this.setState({
             name: data.localized_name,
             roles: data.roles,
             attribute: data.primary_attr,
-            attack_type: data.attack_type
+            attack_type: data.attack_type,
+            img: `http://cdn.dota2.com/apps/dota2/images/heroes/${data.name.substr(14)}_full.png`
           })
         }
       })
@@ -47,8 +50,10 @@ class Details extends Component {
 
   render() {
     return (
+      <div>
       <div className="container">
         <h1>{this.state.name}</h1>
+        <img src={this.state.img} alt=""/>
         <p>Attribute: {this.state.attribute}</p>
         <p>Attack Type: {this.state.attack_type}</p>
         <p>Roles: {
@@ -58,6 +63,8 @@ class Details extends Component {
             )
           })
         }</p>
+      </div>
+        <button onClick={ this.props.history.goBack }>back</button>
       </div>
     );
   }

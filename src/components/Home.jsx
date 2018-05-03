@@ -13,7 +13,7 @@ class Home extends Component {
       const newData = store.getState()
       console.log(newData)
       this.setState({
-        heroes: newData[0]
+        heroes: newData
       })
     })
   }
@@ -40,6 +40,7 @@ class Home extends Component {
               return (
                 <div className="hero container" key={ hero.id }>
                 <strong>{ hero.localized_name }</strong><br/>
+                <img className="imgHome" src={`http://cdn.dota2.com/apps/dota2/images/heroes/${hero.name.substr(14)}_full.png`} alt=""/>
                   <Link to={`/hero/${hero.localized_name}`} onClick={ this.refreshPage }>Details</Link>
                 </div>
               )
