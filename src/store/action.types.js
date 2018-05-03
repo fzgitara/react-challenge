@@ -1,0 +1,1 @@
+export const READ_DATA_HEROES = 'READ_DATA_HEROES'

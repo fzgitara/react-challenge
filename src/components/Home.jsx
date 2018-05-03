@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Link} from "react-router-dom";
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { getHeroes } from '../store/actions/heroes'
 
 class Home extends Component {
   componentDidMount() {
@@ -37,12 +39,9 @@ const mapStateToProps = (state) => ({
   heroes: state
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  getHeroes: (data) => dispatch({
-    type: 'READ_DATA_HEROES',
-    payload: data
-  })
-})
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+  getHeroes
+}, dispatch)
 
 export default connect(
   mapStateToProps,
