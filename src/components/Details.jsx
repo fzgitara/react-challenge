@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import store from '../store/index'
 
 class Details extends Component {
   constructor () {
@@ -10,10 +11,10 @@ class Details extends Component {
       attribute: '',
       attack_type: ''
     }
-  }
-  componentDidMount() {
-    axios.get('https://api.opendota.com/api/heroStats').then(response => {
-      response.data.map(data => {
+    store.subscribe(() => {
+      const details = store.getState()
+      console.log(details)
+      details[0].map(data => {
         if(this.props.match.params.id === data.localized_name){
           this.setState({
             name: data.localized_name,
@@ -22,6 +23,24 @@ class Details extends Component {
             attack_type: data.attack_type
           })
         }
+      })
+    })
+  }
+  componentDidMount() {
+    axios.get('https://api.opendota.com/api/heroStats').then(response => {
+      // response.data.map(data => {
+        // if(this.props.match.params.id === data.localized_name){
+          // this.setState({
+            //   name: data.localized_name,
+            //   roles: data.roles,
+            //   attribute: data.primary_attr,
+            //   attack_type: data.attack_type
+            // })
+            // }
+            // })
+      store.dispatch({
+        type: 'READ_DATA_HEROES',
+        payload: response.data
       })
     })
   }

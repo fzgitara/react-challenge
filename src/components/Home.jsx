@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Link} from "react-router-dom";
+import store from "../store/index";
 
 class Home extends Component {
   constructor () {
@@ -8,11 +9,22 @@ class Home extends Component {
     this.state = {
       heroes : []
     }
+    store.subscribe(() => {
+      const newData = store.getState()
+      console.log(newData)
+      this.setState({
+        heroes: newData[0]
+      })
+    })
   }
   componentDidMount() {
     axios.get('https://api.opendota.com/api/heroStats').then(response => {
-      this.setState({
-        heroes: response.data
+      // this.setState({
+      //   heroes: response.data
+      // })
+      store.dispatch({
+        type: 'READ_DATA_HEROES',
+        payload: response.data
       })
     })
   }
