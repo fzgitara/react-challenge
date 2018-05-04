@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import { BrowserRouter as Router, Link} from "react-router-dom";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -7,36 +6,44 @@ import { getHeroes } from '../store/actions/heroes'
 
 class Home extends Component {
   componentDidMount() {
-    axios.get('https://api.opendota.com/api/heroStats').then(response => {
-      this.props.getHeroes(response.data)
-    })
+    this.props.getHeroes()
   }
   refreshPage = () => { 
     window.location.reload()
   }
   render() {
-    return (
-      <Router>
-        <div className="home container">
-          { 
-            this.props.heroes.map(hero => {
-              return (
-                <div className="hero container" key={ hero.id }>
-                <strong>{ hero.localized_name }</strong><br/>
-                <img className="imgHome" src={`http://cdn.dota2.com/apps/dota2/images/heroes/${hero.name.substr(14)}_full.png`} alt=""/>
-                  <Link to={`/hero/${hero.localized_name}`} onClick={ this.refreshPage }>Details</Link>
-                </div>
-              )
-            }) 
-          }
+    if(this.props.heroes.loading){
+      return (
+        <div style={{
+          paddingTop: '3rem'
+        }}>
+          <img src="https://orig00.deviantart.net/df77/f/2013/094/8/d/loading_logofinal_by_zegerdon-d60eb1v.gif" alt=""/>
         </div>
-      </Router>
-    );
+      )
+    } else {
+      return (
+        <Router>
+          <div className="home container">
+            { 
+              this.props.heroes.data.map(hero => {
+                return (
+                  <div className="hero container" key={ hero.id }>
+                  <strong>{ hero.localized_name }</strong><br/>
+                  <img className="imgHome" src={`http://cdn.dota2.com/apps/dota2/images/heroes/${hero.name.substr(14)}_full.png`} alt=""/>
+                    <Link to={`/hero/${hero.localized_name}`} onClick={ this.refreshPage }>Details</Link>
+                  </div>
+                )
+              }) 
+            }
+          </div>
+        </Router>
+      );
+    }
   }
 }
 
 const mapStateToProps = (state) => ({
-  heroes: state
+  heroes: state.heroes
 })
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
